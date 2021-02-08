@@ -58,7 +58,7 @@ bool mtch_begin(uint8_t rx_count, uint8_t tx_count, uint8_t set_mode) {
     cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x00; cmd[3] = 0x02; cmd[4] = tx_count;
     r = mtch_command(cmd);
     // マルチタッチの許容数
-    cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x30; cmd[3] = 0x07; cmd[4] = 0x00;
+    cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x30; cmd[3] = 0x07; cmd[4] = 0x02;
     r = mtch_command(cmd);
     // touch config  81 = enabled   01 = disabled
     cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0xF0; cmd[3] = 0x07; cmd[4] = 0x01;

@@ -52,10 +52,10 @@ bool mtch_begin(uint8_t rx_count, uint8_t tx_count, uint8_t set_mode) {
     cmd[0] = 0x01; cmd[1] = 0x01;
     r = mtch_command(cmd);
     // RX
-    cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x00; cmd[3] = 0x01; cmd[4] = 0x05;
+    cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x00; cmd[3] = 0x01; cmd[4] = rx_count;
     r = mtch_command(cmd);
     // TX
-    cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x00; cmd[3] = 0x02; cmd[4] = 0x04;
+    cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x00; cmd[3] = 0x02; cmd[4] = tx_count;
     r = mtch_command(cmd);
     // read RX
     cmd[0] = 0x03; cmd[1] = 0x16; cmd[2] = 0x00; cmd[3] = 0x01;

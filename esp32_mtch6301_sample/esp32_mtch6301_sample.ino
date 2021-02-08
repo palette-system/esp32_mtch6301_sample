@@ -57,9 +57,6 @@ bool mtch_begin(uint8_t rx_count, uint8_t tx_count, uint8_t set_mode) {
     // TX
     cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x00; cmd[3] = 0x02; cmd[4] = tx_count;
     r = mtch_command(cmd);
-    // read RX
-    cmd[0] = 0x03; cmd[1] = 0x16; cmd[2] = 0x00; cmd[3] = 0x01;
-    r = mtch_command(cmd);
     // マルチタッチの許容数
     cmd[0] = 0x04; cmd[1] = 0x15; cmd[2] = 0x30; cmd[3] = 0x07; cmd[4] = 0x00;
     r = mtch_command(cmd);

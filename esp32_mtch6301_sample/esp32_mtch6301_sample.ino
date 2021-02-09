@@ -93,6 +93,20 @@ bool mtch_begin(uint8_t rx_count, uint8_t tx_count, uint8_t set_mode) {
 uint8_t mtch_command(uint8_t * cmd) {
     uint8_t i, r, s;
 
+    // コマンド実行前に MTCH6301 が送りたいデータがあれば全て空読みしておく
+    if (boot_mode & MTCH6301_MODE_GESTURE) {
+        i = 3;
+    } else if (boot_mode & MTCH6301_MODE_TOUCH) {
+        i = 6;
+    } else {
+        i = 1;
+    }
+    while (digitalRead(17)) {
+        r = Wire.requestFrom(MTCH6301_I2C_ADDR, i);
+        while (Wire.available()) Wire.read();
+    }
+
+    // コマンド送信
     Serial.printf("mtch_command\n");
     Serial.printf("write:");
     Wire.beginTransmission(MTCH6301_I2C_ADDR);
@@ -107,6 +121,7 @@ uint8_t mtch_command(uint8_t * cmd) {
     Serial.printf("\n");
     delay(5);
 
+    // 結果受信
     r = 5;
     if (cmd[1] == 0x00) r = 5;
     if (cmd[1] == 0x01) r = 5;

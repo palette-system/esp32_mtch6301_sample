@@ -146,6 +146,8 @@ uint8_t mtch_command(uint8_t * cmd) {
 void mtch_get_toutch() {
     int e, i, r, s, x, y;
     uint8_t read_buf[16];
+    uint32_t touch_id;
+    uint32_t touch_pen;
     uint32_t now_time;
     uint32_t time_i;
 
@@ -187,6 +189,8 @@ void mtch_get_toutch() {
     } else {
         time_i = 0;
     }
+    touch_id = ( read_buf[1] >> 3 ) & 0x0F;
+    touch_pen = read_buf[1] & 0x01;
     x = 0;
     y = 0;
     if (boot_mode & MTCH6301_MODE_TOUCH) {
@@ -194,14 +198,15 @@ void mtch_get_toutch() {
         y = (read_buf[4] & 0x7F) + ((read_buf[5] & 0x1F) << 7 );
     }
     if (time_i > 200) { // 200ミリ秒ぶりだったらタッチ開始と判定
-        Serial.printf("start\n");
+        // Serial.printf("start\n");
         last_x = x;
         last_y = y;
     }
     if (boot_mode & MTCH6301_MODE_GESTURE) {
         Serial.printf("read: %02X %02X %02X  t: %D\n", read_buf[0], read_buf[1], read_buf[2], time_i);
     } else if (boot_mode & MTCH6301_MODE_TOUCH) {
-        Serial.printf("read: %02X %02X %02X %02X %02X %02X [ %D , %D]  t: %D\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3], read_buf[4], read_buf[5], (last_x - x), (last_y - y), time_i);
+        // Serial.printf("read: %02X %02X %02X %02X %02X %02X [ %D , %D]  t: %D\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3], read_buf[4], read_buf[5], (last_x - x), (last_y - y), time_i);
+        Serial.printf("%D,%D,%D,%D\n", touch_id, touch_pen, x, y);
     }
     last_x = x;
     last_y = y;
